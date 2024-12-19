@@ -1,0 +1,221 @@
+@page "/recdef"
+@rendermode InteractiveServer 
+@inject NavigationManager navmanNavigeerder
+
+
+<PageTitle>Record Definition Page</PageTitle> 
+<Accordion>
+    <AccordionItem Title="Set header parameters">
+        <Content>
+            <p>Row with fields: @HeaderField</p>
+            <p>Number of rows per record:</p>
+            <button @onclick="FillTable">Fill the table</button>
+            <p>@LoadStatus</p>
+            <table>
+                <tr><th>Row 1</th><th>Row 2</th><th>Row 3</th><th>Row 4</th><th>Row 5</th></tr>
+                
+                <tr>
+                    <InputRadioGroup ValueChanged="@((e) => OnHeaderRowRadiochange(e))" TValue="string" ValueExpression="() => HeaderField">
+                    @foreach(var item in HeaderRowItems){
+                        bool Checked= false;
+                        if (HeaderField.Equals(item, StringComparison.OrdinalIgnoreCase))
+                        {
+                            Checked = true;
+                        }
+
+                        <td><InputRadio Value="@item" class="form-check-input" checked=@Checked />@item</td>
+         
+                    }                    
+                    </InputRadioGroup>
+                        
+                    
+
+                </tr>
+                
+                @for(int acr=0; acr<Columns[0].Count; acr++){
+                <tr><td>@Columns[0][acr]</td><td>@Columns[1][acr]</td><td>@Columns[2][acr]</td><td>@Columns[3][acr]</td><td>@Columns[4][acr]</td></tr>
+    }
+            </table>
+            
+        </Content>
+    </AccordionItem>
+    <AccordionItem Title="Example records">
+        <Content>
+            <h1>Example records</h1>
+            <table>
+                <tr>
+                    <th>Field name</th>
+                    <th>@RecordNumbers[0].ToString()</th>
+                    <th>@RecordNumbers[1].ToString()</th>
+                    <th>@RecordNumbers[2].ToString()</th>
+                    <th>@RecordNumbers[3].ToString()</th>
+                </tr>
+
+            </table>
+
+        </Content>
+    </AccordionItem>
+</Accordion>
+
+
+<button @onclick="PressTheButton">Clickme</button>
+@code{
+    private int intRowsPerRecord = 1;
+    private int intHeaderRow = 0;
+    public string[] HeaderRowItems = {"1","2","3","4","5"};
+    public int RowsPerRecord =1;
+    public int[] RecordNumbers = {1,2,3,4};
+    public string HeaderField = "0";
+    public List<string>[] NewTry = new List<string>[5];
+    public List<string>[] Columns = new List<string>[5];
+    
+    public List<string>[] ExampleRecords = new List<string>[5];
+
+    public string LoadStatus = "";
+    public string NextResult = "No next result yet...";
+    public string FileType = "No file type yet, sorry.";
+    public string FileToLoad = "No file found yet...";
+    public string[] FilesInFolder = [];
+    private string FirstParameter = "It has not changed yet.";
+    private async Task ChangeHeaderField(EventArgs e){
+       
+    }
+    
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if(firstRender){
+
+            Console.WriteLine(GetQueryParm("Foo"));
+            FirstParameter = GetQueryParm("Foo");
+
+        }
+        else{
+            FirstParameter = GetQueryParm("Foo");
+        }
+    }
+
+    string GetQueryParm(string parmName){
+        var uriBuilder = new UriBuilder(navmanNavigeerder.Uri);
+        var q = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
+        return q[parmName] ?? "";
+    }
+
+    private int MaxRows(List<string>[] inputList)
+    {
+        int res = 0;
+        for(int ic=0; ic < inputList.Count(); ic++)
+        {
+            if(inputList[ic].Count > res) res = inputList[ic].Count;
+        }
+        return res;
+    }
+
+    private void PressTheButton(){
+        FirstParameter = GetQueryParm("Foo");
+    }
+
+    private async void LoadFile(){
+
+        
+        
+
+    }
+
+    private void FillTable(){
+        LoadStatus = "Table loading";
+        IExcelDataReader xlDataReader;
+        int intFileIndex; 
+        int.TryParse(GetQueryParm("Foo"),out intFileIndex);   
+        LoadStatus += ";Index = " + intFileIndex.ToString();
+
+
+
+        var saveFolder = Path.Combine("./uploads/");        
+        FilesInFolder = Directory.GetFiles(saveFolder);
+        FileToLoad = FilesInFolder[intFileIndex];
+        var stream = File.Open(FileToLoad, FileMode.Open, FileAccess.Read);
+        
+        int lastDot = stream.Name.LastIndexOf(".");
+        
+        LoadStatus +="; File name = " + stream.Name;
+        
+        
+        FileType = stream.Name.Substring(lastDot+1,stream.Name.Length-lastDot-1);
+        if(FileType == "xls" || FileType == "xlsx"){
+            xlDataReader = ExcelDataReader.ExcelReaderFactory.CreateReader(stream);
+            //xlDataReader.NextResult();
+            
+            int rows = 0;
+            
+            do{
+                while(xlDataReader.Read()){
+                    
+                    if(rows < 5) for(int colCnt = 0; colCnt < xlDataReader.FieldCount; colCnt++){
+                            string tmpRes = xlDataReader.GetString(colCnt);
+                            NextResult = NextResult + tmpRes;
+                            NewTry[rows].Add(xlDataReader.GetString(colCnt));
+                            Columns[rows].Add(tmpRes);
+                            
+                        }
+                    rows++;
+
+                }
+
+            }while(xlDataReader.NextResult());
+            
+            xlDataReader.Close();
+            
+        }
+        else if(FileType == "csv"){
+            xlDataReader = ExcelDataReader.ExcelReaderFactory.CreateCsvReader(stream, new ExcelReaderConfiguration {AutodetectSeparators = new char[] { ',', ';', '\t', '|', '#' }});
+            int rows = 0;
+            ExcelReaderConfiguration erc = new ExcelReaderConfiguration();
+            
+            
+            
+            do{
+                while(xlDataReader.Read()){
+                    
+                    if(rows < 5) for(int colCnt = 0; colCnt < xlDataReader.FieldCount; colCnt++){
+                            string tmpRes = xlDataReader.GetString(colCnt);
+                            NextResult = NextResult + tmpRes + " - ";
+                            NewTry[rows].Add(xlDataReader.GetString(colCnt));
+                            Columns[rows].Add(tmpRes);
+                            
+                        }
+                    NextResult = NextResult + rows.ToString();
+                    rows++;
+
+
+                }
+
+            }while(xlDataReader.NextResult());
+            
+            xlDataReader.Close();
+        }
+
+        
+        stream.Close();
+        
+
+        
+
+    }
+    protected override void OnInitialized(){        
+        for(int cc = 0; cc < 5; cc++) Columns[cc] = new List<string>();
+        for(int cc = 0; cc < 5; cc++) NewTry[cc] = new List<string>();
+        for(int cc = 0; cc < 5; cc++) ExampleRecords[cc] = new List<string>();
+            
+
+        
+                
+    }
+
+      private void OnHeaderRowRadiochange(object sender)
+    {
+        HeaderField = (string)sender;
+        int.TryParse(HeaderField,out  intHeaderRow);
+        intHeaderRow--;
+        StateHasChanged();
+    }
+}

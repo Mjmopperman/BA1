@@ -1,0 +1,105 @@
+@page "/listarraytest"
+@rendermode InteractiveServer 
+
+<PageTitle>This page serves to test List Arrays</PageTitle>
+<p>@SelectedValue</p>
+<EditForm Model="Items">
+<InputRadioGroup ValueChanged="@((e) => OnRadiochange(e))" TValue="string" ValueExpression="() => SelectedValue">
+    @foreach (var item in Items)
+    {
+        bool Checked= false;
+        if (SelectedValue.Equals(item, StringComparison.OrdinalIgnoreCase))
+        {
+            Checked = true;
+        }
+    <div class="form-check">
+        <InputRadio Value="@item" class="form-check-input" checked=@Checked />
+        @item <br />
+    </div>
+    }
+</InputRadioGroup>
+
+</EditForm>
+<p>Max rows: @MaxRows(AllTheLists)</p>
+
+
+
+<Accordion>
+    <AccordionItem Title="Accordion Item #1">
+        <Content>
+            <b>This is the first item's accordion body.</b> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the .accordion-body, though the transition does limit overflow.
+        </Content>
+    </AccordionItem>
+    <AccordionItem Title="Accordion Item #2">
+        <Content>
+            <b>This is the second item's accordion body.</b> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the .accordion-body, though the transition does limit overflow.
+        </Content>
+    </AccordionItem>
+    <AccordionItem Title="Accordion Item #3">
+        <Content>
+            <b>This is the third item's accordion body.</b> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the .accordion-body, though the transition does limit overflow.
+        </Content>
+    </AccordionItem>
+</Accordion>
+<table>
+
+
+@for(int rc=0; rc<MaxRows(AllTheLists);rc++){
+    <tr>
+    @for(int cc = 0; cc<2; cc++){
+        int lclCC = cc;
+            if(rc >= AllTheLists[cc].Count ) {
+                <td>No value</td>
+            }      
+
+            else {
+                <td>@AllTheLists[cc][rc]</td>
+            }
+    }
+    </tr>
+}
+
+</table>
+
+<button @onclick="FillTables">Fill those tables!!</button>
+@code{
+
+    public string SelectedValue { get; set; } = "AspNetCore";
+public List<string> Items { get; set; } = new List<string> { "AspNetCore", "AspNet", "SomeJsThingWhatever" };
+
+    private void OnRadiochange(object sender)
+    {
+        SelectedValue = (string)sender;
+        StateHasChanged();
+    }
+
+    public int HeaderFieldRow = 0;
+    private List<string>[] AllTheLists = new List<string>[2];
+
+    private void FillTables(){
+        AllTheLists[0].Add("It's alive!");
+        AllTheLists[1].Add("It's alive too!");
+        AllTheLists[1].Add("It's more alive too!");
+    }
+
+    protected override void OnInitialized(){
+        for(int cc=0; cc<2;cc++){
+            AllTheLists[cc]= new List<string>();
+
+        }
+
+        
+    }
+
+      private int MaxRows(List<string>[] inputList)
+    {
+        int res = 0;
+        for(int ic=0; ic < inputList.Count(); ic++)
+        {
+            if(inputList[ic].Count > res) res = inputList[ic].Count;
+        }
+        return res;
+    }
+
+
+}

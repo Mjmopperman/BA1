@@ -1,0 +1,62 @@
+@page "/rfl"
+@inject Blazored.SessionStorage.ISessionStorageService stor
+
+
+@rendermode InteractiveServer 
+
+
+
+
+<PageTitle>Hierdie is net 'n toets</PageTitle> 
+<div>@Testing</div>
+<a href="/Toets">Refresh</a>
+<InputFile accept=".csv, .xls, .xlsx" OnChange="UploadFile" class="form-control" />
+
+<div>@StatusMessage</div>
+
+<h2>Upload files</h2>
+<ul>
+    
+    @foreach(string fnStr in FilesInFolder)
+    {
+        int lclFI = FileIndex;
+        string lclStr = fnStr.Remove(0,10);
+        <li><a href="recdef?Foo=+@lclFI">Load file</a> @lclStr</li>
+        FileIndex += 1;
+    }
+</ul>
+
+@code{
+   
+    public string Testing = "Toetsie doep";
+    public string StatusMessage = "";
+    public string[] FilesInFolder = [];
+    public int FileIndex = 0;
+    protected override async Task OnInitializedAsync(){
+        FilesInFolder = Directory.GetFiles("uploads");
+        
+        
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        Testing = await stor.GetItemAsync<string>("name");
+        StateHasChanged();
+    }
+
+    private async Task UploadFile(InputFileChangeEventArgs e){
+        StatusMessage = "File uploading...";
+        long maxFileSize = 1024 * 1024 * 1024; 
+        var saveFolder = Path.Combine("./uploads/");
+        var filePath = Path.Combine(saveFolder,e.File.Name);
+        Directory.CreateDirectory(saveFolder);
+        await using FileStream fs = new(filePath, FileMode.Create);
+        await e.File.OpenReadStream(maxFileSize).CopyToAsync(fs);
+        StatusMessage = "File uploaded successfully.";
+        FilesInFolder = Directory.GetFiles(saveFolder);
+
+    }
+
+
+}
+

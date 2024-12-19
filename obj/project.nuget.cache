@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "dgSpecHash": "xSDDLVVt0IvJYby4N+abfjbl10Vho426sJA6TIs4It/6oULZsSs+qsuaLmIjf1SXIfegbAstugdfUWra6E6yoQ==",
+  "success": true,
+  "projectFilePath": "/media/mjmo/1TBEVO/dotnet/BlazorApp/BlazorApp.csproj",
+  "expectedPackageFiles": [
+    "/home/mjmo/.nuget/packages/blazor.bootstrap/3.2.0/blazor.bootstrap.3.2.0.nupkg.sha512",
+    "/home/mjmo/.nuget/packages/blazored.sessionstorage/2.4.0/blazored.sessionstorage.2.4.0.nupkg.sha512",
+    "/home/mjmo/.nuget/packages/exceldatareader/3.7.0/exceldatareader.3.7.0.nupkg.sha512",
+    "/home/mjmo/.nuget/packages/microsoft.aspnetcore.authorization/8.0.11/microsoft.aspnetcore.authorization.8.0.11.nupkg.sha512",
+    "/home/mjmo/.nuget/packages/microsoft.aspnetcore.components/8.0.11/microsoft.aspnetcore.components.8.0.11.nupkg.sha512",
+    "/home/mjmo/.nuget/packages/microsoft.aspnetcore.components.analyzers/8.0.11/microsoft.aspnetcore.components.analyzers.8.0.11.nupkg.sha512",
+    "/home/mjmo/.nuget/packages/microsoft.aspnetcore.components.authorization/8.0.10/microsoft.aspnetcore.components.authorization.8.0.10.nupkg.sha512",
+    "/home/mjmo/.nuget/packages/microsoft.aspnetcore.components.forms/8.0.11/microsoft.aspnetcore.components.forms.8.0.11.nupkg.sha512",
+    "/home/mjmo/.nuget/packages/microsoft.aspnetcore.components.quickgrid/8.0.6/microsoft.aspnetcore.components.quickgrid.8.0.6.nupkg.sha512",
+    "/home/mjmo/.nuget/packages/microsoft.aspnetcore.components.web/8.0.11/microsoft.aspnetcore.components.web.8.0.11.nupkg.sha512",
+    "/home/mjmo/.nuget/packages/microsoft.aspnetcore.components.webassembly.authentication/8.0.10/microsoft.aspnetcore.components.webassembly.authentication.8.0.10.nupkg.sha512",
+    "/home/mjmo/.nuget/packages/microsoft.aspnetcore.metadata/8.0.11/microsoft.aspnetcore.metadata.8.0.11.nupkg.sha512",
+    "/home/mjmo/.nuget/packages/microsoft.extensions.configuration.abstractions/8.0.0/microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",
+    "/home/mjmo/.nuget/packages/microsoft.extensions.dependencyinjection/8.0.1/microsoft.extensions.dependencyinjection.8.0.1.nupkg.sha512",
+    "/home/mjmo/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.2/microsoft.extensions.dependencyinjection.abstractions.8.0.2.nupkg.sha512",
+    "/home/mjmo/.nuget/packages/microsoft.extensions.logging.abstractions/8.0.2/microsoft.extensions.logging.abstractions.8.0.2.nupkg.sha512",
+    "/home/mjmo/.nuget/packages/microsoft.extensions.options/8.0.2/microsoft.extensions.options.8.0.2.nupkg.sha512",
+    "/home/mjmo/.nuget/packages/microsoft.extensions.primitives/8.0.0/microsoft.extensions.primitives.8.0.0.nupkg.sha512",
+    "/home/mjmo/.nuget/packages/microsoft.jsinterop/8.0.11/microsoft.jsinterop.8.0.11.nupkg.sha512",
+    "/home/mjmo/.nuget/packages/system.io.pipelines/8.0.0/system.io.pipelines.8.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

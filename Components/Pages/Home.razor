@@ -1,0 +1,32 @@
+﻿@page "/"
+@inject Blazored.SessionStorage.ISessionStorageService stor
+@using BlazorApp
+
+
+
+@rendermode InteractiveServer
+<PageTitle>Tuis</PageTitle>
+
+<h1>Hoe lyk dit nou?</h1>
+
+<p>?Hoe de hel is jy so vinnig?</p>
+<div>@Testing - @UserVerified</div>
+
+@code{
+    
+    public BlazorApp.Users unpw = new ();
+
+    public string Testing = "Toets toets toest";
+    public string UserVerified = "User not verified";
+     protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await stor.SetItemAsync("name", "John Smith");
+        Testing = await stor.GetItemAsync<string>("name");
+        
+        if(unpw.UsernamePassword["marinus.opperman@gmail.com"] == unpw.QuickHash("Xiko304050#$%")) UserVerified = "Verified";
+        
+        StateHasChanged();
+    }
+    
+}
+

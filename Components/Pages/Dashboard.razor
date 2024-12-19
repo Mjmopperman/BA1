@@ -1,0 +1,48 @@
+﻿@page "/dashboard"
+@rendermode InteractiveServer
+
+<PageTitle>Project Dashboard</PageTitle>
+
+<h1>Project Dashboard</h1>
+<p>@initTest</p>
+
+<h2>Datafiles</h2>
+<ul>
+@foreach(string fileStr in uploads){
+    string lclStr = fileStr.Remove(0,8);
+    <li>@lclStr</li>
+}
+</ul>
+<h2>Definition files</h2>
+<ul>
+@foreach(string tdStr in tabledefs){
+    string lclStr = tdStr.Remove(0,10);
+    <li>@lclStr</li>
+}
+</ul>
+
+<h2>Update logs</h2>
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Druk my</button>
+
+
+@code {
+    private string[] uploads = [];
+    private string[] tabledefs = [];
+    private int currentCount = 0;
+    private int initTest = 6;
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    protected override void  OnInitialized()
+    {
+        initTest = 8;
+        uploads = Directory.GetFiles("uploads");
+        tabledefs = Directory.GetFiles("tabledefs");
+    }
+
+
+}
