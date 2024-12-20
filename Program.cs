@@ -1,6 +1,9 @@
 using Blazored.SessionStorage;
 using BlazorApp.Components;
-//using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Authorization;
+
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,7 @@ builder.Services.AddBlazoredSessionStorage();
 //auth
 builder.Services.AddAuthorization();
 builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddScoped<AuthenticationStateProvider, BlazorApp.CustomAuthStateProvider>();
 
 var app = builder.Build();
 

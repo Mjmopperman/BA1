@@ -1,6 +1,6 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Components.Authorization;
-
+namespace BlazorApp{
 public class CustomAuthStateProvider : AuthenticationStateProvider
 {
     public override Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -23,4 +23,5 @@ public class CustomAuthStateProvider : AuthenticationStateProvider
         NotifyAuthenticationStateChanged(
             Task.FromResult(new AuthenticationState(user)));
     }
+}
 }

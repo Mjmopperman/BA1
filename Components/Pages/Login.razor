@@ -1,7 +1,8 @@
 @page "/login"
 @using Microsoft.AspNetCore.Components.Authorization;
 @inject AuthenticationStateProvider AuthenticationStateProvider
-
+@using BlazorApp;
+@rendermode InteractiveServer
 <input @bind="userIdentifier" />
 <button @onclick="SignIn">Sign in</button>
 
@@ -19,8 +20,9 @@
 
     private void SignIn()
     {
-        ((CustomAuthStateProvider)AuthenticationStateProvider)
-            .AuthenticateUser(userIdentifier);
         
+        ((BlazorApp.CustomAuthStateProvider)AuthenticationStateProvider)
+            .AuthenticateUser(userIdentifier);
+        StateHasChanged();
     }
 }
