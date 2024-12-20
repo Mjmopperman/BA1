@@ -1,53 +1,24 @@
 @page "/login"
-@inject Blazored.SessionStorage.ISessionStorageService stor
-@using BlazorApp
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
+<input @bind="userIdentifier" />
+<button @onclick="SignIn">Sign in</button>
 
+<AuthorizeView>
+    <Authorized>
+        <p>Hello, @context.User.Identity?.Name!</p>
+    </Authorized>
+    <NotAuthorized>
+        <p>You're not authorized.</p>
+    </NotAuthorized>
+</AuthorizeView>
 
-@rendermode InteractiveServer
-<PageTitle>Jy moet inlog, jou rowwe bliksem!</PageTitle>
+@code {
+    public string userIdentifier = string.Empty;
 
-<h1>Login</h1>
-
-<p>Username:<InputText @oncancel="ClearErrorMessage" placeholder="Username" @bind-Value="@Username" /></p>
-<p>Password:<InputText @oncancel="ClearErrorMessage" type="password" placeholder="Password" @bind-Value="@Password" />
-<button @onclick="CheckCredentials">Login</button>
-</p>
-<div>@Username - @Password</div>
-<div>@ErrorMessage</div>
-
-@code{
-    
-    public BlazorApp.Users unpw = new ();
-
-    public string Username = "Toets toets toest";
-    private string Password = "User not verified";
-    private string ErrorMessage = "";
-     protected override async Task OnAfterRenderAsync(bool firstRender)
+    private void SignIn()
     {
-        //await stor.SetItemAsync("name", "John Smith");
-        //Testing = await stor.GetItemAsync<string>("name");
-        
-        //if(unpw.UsernamePassword["marinus.opperman@gmail.com"] == unpw.QuickHash("Xiko304050#$%")) UserVerified = "Verified";
-        
-        //StateHasChanged();
+        ((CustomAuthStateProvider)AuthenticationStateProvider)
+            .AuthenticateUser(userIdentifier);
     }
-
-    private void ClearErrorMessage(){
-        ErrorMessage = "";
-    }
-    private async void CheckCredentials(){
-        if(unpw.UsernamePassword[Username] == unpw.QuickHash(Password)) {
-            ErrorMessage = "You are now logged in!";
-            await stor.SetItemAsync<string>("usernameloggedin",Username);
-            await stor.SetItemAsync<string>(Username,unpw.QuickHash(Password));
-            StateHasChanged();
-            
-        }
-        
-        else ErrorMessage = "Try again, bitch!";
-    }
-    
 }
-
-    using Microsoft.VisualBasic;

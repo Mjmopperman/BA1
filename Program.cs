@@ -12,7 +12,8 @@ builder.Services.AddRazorComponents()
 builder.Services.AddBlazorBootstrap();
 builder.Services.AddBlazoredSessionStorage();
 
-
+builder.Services.AddAuthorization();
+builder.Services.AddCascadingAuthenticationState();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
