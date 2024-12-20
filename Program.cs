@@ -1,6 +1,6 @@
 using Blazored.SessionStorage;
 using BlazorApp.Components;
-
+//using Microsoft.AspNetCore.Components.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,9 +11,10 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddBlazorBootstrap();
 builder.Services.AddBlazoredSessionStorage();
-
+//auth
 builder.Services.AddAuthorization();
 builder.Services.AddCascadingAuthenticationState();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

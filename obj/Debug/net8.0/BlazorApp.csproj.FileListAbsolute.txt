@@ -91,3 +91,4 @@
 /media/mjmo/1TBEVO/dotnet/BlazorApp/obj/Debug/net8.0/BlazorApp.genruntimeconfig.cache
 /media/mjmo/1TBEVO/dotnet/BlazorApp/obj/Debug/net8.0/ref/BlazorApp.dll
 /media/mjmo/1TBEVO/dotnet/BlazorApp/bin/Debug/net8.0/Blazored.SessionStorage.dll
+/media/mjmo/1TBEVO/dotnet/BlazorApp/obj/Debug/net8.0/BlazorApp.sourcelink.json
